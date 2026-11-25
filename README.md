@@ -1,2 +1,2 @@
 # Cyber-detective-Game
-A short, fun game to teach Digcon sec community about cybersecurity
+A short, fun game to teach people about cybersecurity
