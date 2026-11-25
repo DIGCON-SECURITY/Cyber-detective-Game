@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGCON SEC · CyberSmart</title>
+<style>
+  :root{
+    --navy:#0a1a3a; --navy2:#122552; --navy3:#1a3066;
+    --cyan:#00d4ff; --cyan2:#33e0ff;
+    --white:#ffffff; --text:#e8f1ff; --muted:#8ba3c7;
+    --yellow:#ffd93d; --green:#22c55e; --red:#ef4444;
+    --gmail:#ea4335; --outlook:#0078d4; --yahoo:#6001d2;
+    --card:#122552; --border:#1f3a72;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:linear-gradient(160deg,#0a1a3a 0%,#06102a 100%);
+    color:var(--text);min-height:100vh;padding:16px 16px 120px;
+    display:flex;justify-content:center;align-items:flex-start;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{width:100%;max-width:1080px}
+  h1{font-size:1.6rem;font-weight:800;letter-spacing:-.3px;line-height:1.2}
+  h2{font-size:1.25rem;font-weight:700;line-height:1.3}
+  h3{font-size:1rem;font-weight:700}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+  .brand-mark{width:42px;height:42px;border-radius:11px;
+    background:linear-gradient(135deg,var(--cyan),#0077b6);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;box-shadow:0 4px 18px rgba(0,212,255,.35)}
+  .brand-text{line-height:1.15}
+  .brand-text .l1{font-size:.7rem;letter-spacing:2px;color:var(--cyan);font-weight:800}
+  .brand-text .l2{font-size:1.15rem;font-weight:800;color:var(--white)}
+  .sub{color:var(--muted);font-size:.9rem;line-height:1.5}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
+    padding:22px;box-shadow:0 12px 40px rgba(0,0,0,.35);margin-bottom:16px}
+  .btn{
+    background:linear-gradient(135deg,var(--cyan),#0099cc);color:#041028;
+    border:0;padding:13px 22px;border-radius:11px;font-size:.95rem;font-weight:800;
+    cursor:pointer;transition:.15s;letter-spacing:.2px}
+  .btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+  .btn.ghost{background:transparent;border:1.5px solid var(--border);color:var(--text)}
+  .btn.ghost:hover{border-color:var(--cyan);color:var(--cyan)}
+  .btn.yellow{background:linear-gradient(135deg,var(--yellow),#ffb800);color:#2a1e00}
+  .btn.danger{background:linear-gradient(135deg,var(--red),#b91c1c);color:#fff}
+  .btn.block{width:100%;display:block;margin-top:10px}
+  .btn.sm{padding:9px 16px;font-size:.85rem}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .center{text-align:center}
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .hero{padding:36px 22px;text-align:center}
+  .hero .mark-big{width:80px;height:80px;border-radius:22px;margin:0 auto 20px;
+    background:linear-gradient(135deg,var(--cyan),#0077b6);
+    display:flex;align-items:center;justify-content:center;font-size:2.4rem;
+    box-shadow:0 8px 32px rgba(0,212,255,.4)}
+  .hero h1{font-size:2rem;margin-bottom:8px;background:linear-gradient(90deg,var(--cyan),#fff);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .tag{color:var(--cyan);font-weight:800;letter-spacing:2px;font-size:.8rem;margin-bottom:14px}
+  .hero .lede{color:var(--muted);max-width:520px;margin:0 auto 24px;line-height:1.6;font-size:.95rem}
+  .mode-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:18px}
+  .mode-card{background:var(--navy2);border:1.5px solid var(--border);border-radius:16px;
+    padding:22px;cursor:pointer;transition:.15s;text-align:left;position:relative;overflow:hidden}
+  .mode-card:hover{border-color:var(--cyan);transform:translateY(-3px);
+    box-shadow:0 12px 32px rgba(0,212,255,.15)}
+  .mode-card .emoji{font-size:2rem;margin-bottom:10px;display:block}
+  .mode-card h3{color:var(--white);margin-bottom:6px}
+  .mode-card p{color:var(--muted);font-size:.85rem;line-height:1.5}
+  .mode-card .tagline{margin-top:12px;font-size:.7rem;letter-spacing:1px;
+    color:var(--cyan);font-weight:800}
+
+  .topbar{display:flex;justify-content:space-between;align-items:center;
+    background:var(--navy2);border:1px solid var(--border);border-radius:12px;
+    padding:12px 16px;margin-bottom:14px;font-size:.85rem;gap:10px;flex-wrap:wrap}
+  .topbar .score-pill{background:rgba(0,212,255,.15);color:var(--cyan);
+    padding:5px 12px;border-radius:20px;font-weight:800;font-size:1rem}
+  .topbar .prog-pill{color:var(--muted)}
+  .progress-bar{height:6px;background:var(--navy3);border-radius:3px;overflow:hidden;
+    margin-bottom:16px}
+  .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--cyan),#0099cc);
+    border-radius:3px;transition:width .4s ease}
+  .q-cat{display:inline-block;background:rgba(0,212,255,.12);color:var(--cyan);
+    padding:4px 10px;border-radius:6px;font-size:.72rem;font-weight:800;letter-spacing:1px;
+    text-transform:uppercase;margin-bottom:12px}
+  .q-scenario{font-size:1.05rem;line-height:1.55;margin-bottom:20px;color:var(--white)}
+  .q-scenario b{color:var(--cyan)}
+  .options{display:grid;gap:10px}
+  .option{background:var(--navy2);border:1.5px solid var(--border);border-radius:12px;
+    padding:14px 16px;cursor:pointer;transition:.12s;text-align:left;color:var(--text);
+    font-size:.92rem;line-height:1.45;display:flex;align-items:flex-start;gap:12px}
+  .option:hover:not(:disabled){border-color:var(--cyan);background:var(--navy3)}
+  .option:disabled{cursor:not-allowed}
+  .option .key{width:26px;height:26px;flex-shrink:0;border-radius:7px;
+    background:var(--navy3);display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:.8rem;color:var(--cyan)}
+  .option.correct{border-color:var(--green);background:rgba(34,197,94,.12)}
+  .option.correct .key{background:var(--green);color:#fff}
+  .option.wrong{border-color:var(--red);background:rgba(239,68,68,.12)}
+  .option.wrong .key{background:var(--red);color:#fff}
+  .option.chosen{border-width:2px}
+
+  .feedback-card{border-radius:16px;padding:22px;margin-top:16px;
+    border:1.5px solid var(--border);background:var(--card)}
+  .feedback-card.good{border-color:var(--green);background:linear-gradient(160deg,#0f2a1c,#122552)}
+  .feedback-card.bad{border-color:var(--red);background:linear-gradient(160deg,#2a0f14,#122552)}
+  .feedback-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .feedback-head .icon{width:44px;height:44px;border-radius:11px;display:flex;
+    align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+  .feedback-card.good .icon{background:var(--green);color:#fff}
+  .feedback-card.bad .icon{background:var(--red);color:#fff}
+  .feedback-head h3{color:var(--white);font-size:1.15rem}
+  .feedback-head .pts{margin-left:auto;font-weight:800;font-size:1rem}
+  .feedback-card.good .pts{color:var(--green)}
+  .feedback-card.bad .pts{color:var(--red)}
+  .fb-section{margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+  .fb-section .lbl{font-size:.72rem;font-weight:800;letter-spacing:1px;
+    color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+  .fb-section p{color:var(--text);font-size:.9rem;line-height:1.55}
+  .fb-section.consequence .lbl{color:var(--yellow)}
+  .fb-section.didyouknow{background:rgba(0,212,255,.06);padding:12px 14px;
+    border-radius:10px;border-top:0;margin-top:14px;border-left:3px solid var(--cyan)}
+  .fb-section.didyouknow .lbl{color:var(--cyan)}
+  .fb-section.didyouknow p{font-size:.85rem;color:var(--muted)}
+
+  .results-hero{text-align:center;padding:30px 20px}
+  .rank-badge{display:inline-block;padding:8px 20px;border-radius:30px;
+    background:linear-gradient(135deg,var(--cyan),#0077b6);color:#041028;
+    font-weight:800;font-size:.9rem;letter-spacing:1px;margin-bottom:16px}
+  .big-score{font-size:3.5rem;font-weight:900;line-height:1;
+    background:linear-gradient(90deg,var(--cyan),#fff);
+    -webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0}
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:12px;margin:20px 0}
+  .stat{background:var(--navy2);border:1px solid var(--border);border-radius:12px;
+    padding:14px;text-align:center}
+  .stat .num{font-size:1.6rem;font-weight:900;color:var(--cyan)}
+  .stat .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;
+    letter-spacing:.5px;margin-top:4px}
+
+  .modal-bg{position:fixed;inset:0;background:rgba(4,8,20,.88);
+    backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:300;animation:fade .2s}
+  .modal{background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:28px;max-width:560px;width:100%;max-height:90vh;overflow:auto;
+    box-shadow:0 30px 80px rgba(0,0,0,.7)}
+  .modal h2{color:var(--white);margin-bottom:10px}
+  .modal p{color:var(--muted);line-height:1.6;font-size:.9rem;margin-bottom:12px}
+
+  .mail-shell{display:grid;grid-template-columns:1fr 1.15fr;gap:14px;margin-top:14px}
+  @media(max-width:860px){.mail-shell{grid-template-columns:1fr}}
+  .inbox{background:#fff;color:#202124;border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);align-self:start}
+  .inbox-head{padding:12px 18px;color:#fff;display:flex;justify-content:space-between;
+    align-items:center;font-weight:700;font-size:.95rem}
+  .inbox.gmail .inbox-head{background:var(--gmail)}
+  .inbox.outlook .inbox-head{background:var(--outlook)}
+  .inbox.yahoo .inbox-head{background:var(--yahoo)}
+  .inbox-tools{background:#f6f8fc;padding:8px 18px;display:flex;gap:6px;
+    border-bottom:1px solid #e0e0e0;font-size:.72rem;color:#5f6368;flex-wrap:wrap}
+  .inbox-tools span{padding:3px 8px;border-radius:5px;background:#fff;border:1px solid #e0e0e0}
+  .email{display:flex;align-items:center;gap:10px;padding:11px 14px;
+    border-bottom:1px solid #f0f0f0;cursor:pointer;transition:.1s;position:relative}
+  .email:hover{background:#f5f8ff}
+  .email.sel{background:#e8f0fe;border-left:3px solid #1a73e8;padding-left:11px}
+  .email.answered{opacity:.45;pointer-events:none}
+  .email .avatar{width:34px;height:34px;border-radius:50%;background:#dfe3ee;color:#3c4043;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.75rem;flex-shrink:0}
+  .email .meta{flex:1;min-width:0}
+  .email .who{font-weight:700;font-size:.82rem;color:#202124;overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap}
+  .email .subj{font-size:.78rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#5f6368}
+  .email.unread .subj{font-weight:700;color:#202124}
+  .email .time{font-size:.68rem;color:#5f6368;white-space:nowrap;align-self:flex-start;padding-top:2px}
+  .preview{background:#fff;color:#202124;border-radius:14px;overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);display:flex;flex-direction:column;
+    min-height:400px;align-self:start}
+  .preview.empty{align-items:center;justify-content:center;color:#8b93b8;text-align:center;padding:40px}
+  .preview-empty-icon{font-size:2.6rem;margin-bottom:10px;opacity:.6}
+  .preview-head{padding:14px 20px;border-bottom:1px solid #eee;background:#f9fafd}
+  .preview-head h3{font-size:.98rem;color:#202124;margin-bottom:5px;line-height:1.3}
+  .preview-head .addr{font-size:.78rem;color:#5f6368;line-height:1.5;word-break:break-word}
+  .preview-head .addr b{color:#202124}
+  .preview-head .date{font-size:.72rem;color:#8b93b8;margin-top:5px}
+  .preview-body{padding:16px 20px;font-size:.85rem;line-height:1.6;flex:1;
+    white-space:pre-line;color:#3c4043;word-break:break-word}
+  .preview-meta{padding:10px 20px;background:#f6f8fc;border-top:1px solid #eee;
+    font-size:.74rem;color:#5f6368}
+  .preview-meta b{color:#202124}
+  .link-note{background:#fff8e1;border-left:3px solid #ffcc4d;padding:7px 11px;
+    font-size:.74rem;color:#7a5c00;margin:0 20px 10px;border-radius:4px;word-break:break-word}
+  .preview-actions{padding:12px 20px;border-top:1px solid #eee;display:flex;
+    justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap}
+  .preview-actions .msg{font-size:.74rem;color:#8b93b8}
+
+  .banner-wrap{position:fixed;left:0;right:0;bottom:0;padding:0 14px 14px;
+    display:flex;justify-content:center;z-index:150;pointer-events:none}
+  .banner{pointer-events:auto;width:100%;max-width:1080px;background:#fff;color:#0a1a3a;
+    border-radius:14px;box-shadow:0 -8px 40px rgba(0,0,0,.6), 0 0 0 1px rgba(0,212,255,.4);
+    padding:14px 18px;display:flex;gap:14px;align-items:center;
+    animation:bannerIn .35s ease;position:relative;overflow:hidden}
+  @keyframes bannerIn{from{transform:translateY(120%);opacity:0}to{transform:none;opacity:1}}
+  .banner.out{animation:bannerOut .3s ease forwards}
+  @keyframes bannerOut{to{transform:translateY(120%);opacity:0}}
+  .banner .icon{width:48px;height:48px;border-radius:12px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+    background:linear-gradient(135deg,var(--cyan),#0077b6);color:#041028}
+  .banner .content{flex:1;min-width:0}
+  .banner .name{font-size:.68rem;font-weight:900;letter-spacing:1.5px;
+    color:#0077b6;text-transform:uppercase;margin-bottom:3px}
+  .banner .msg{font-size:.88rem;line-height:1.5;color:#0a1a3a}
+  .banner .msg b{color:#0077b6}
+  .banner .close{position:absolute;top:8px;right:12px;cursor:pointer;
+    font-size:1.1rem;color:#999;font-weight:800;line-height:1;
+    width:24px;height:24px;display:flex;align-items:center;justify-content:center;
+    border-radius:6px;transition:.1s}
+  .banner .close:hover{background:#eee;color:#333}
+  .banner .timer{position:absolute;left:0;bottom:0;height:3px;background:var(--cyan);
+    width:100%;transform-origin:left;animation:drain 15s linear forwards}
+  @keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+  .banner.silent{background:var(--navy2);color:var(--text);
+    box-shadow:0 -8px 40px rgba(0,0,0,.6),0 0 0 1px rgba(139,163,199,.4)}
+  .banner.silent .icon{background:var(--navy3);color:var(--muted)}
+  .banner.silent .name{color:var(--cyan)}
+  .banner.silent .msg{color:var(--text)}
+  .banner.silent .msg b{color:var(--cyan)}
+  .banner.bad-banner{background:#2a0f14;color:#ffd9e0;
+    box-shadow:0 -8px 40px rgba(0,0,0,.6),0 0 0 1px rgba(239,68,68,.6)}
+  .banner.bad-banner .icon{background:linear-gradient(135deg,var(--red),#b91c1c)}
+  .banner.bad-banner .name{color:#ff8fa3}
+  .banner.bad-banner .msg{color:#ffd9e0}
+  .banner.bad-banner .msg b{color:#ff8fa3}
+
+  .pill{display:inline-block;padding:4px 10px;border-radius:20px;
+    background:rgba(0,212,255,.12);color:var(--cyan);font-size:.72rem;font-weight:800}
+  .divider{height:1px;background:var(--border);margin:16px 0}
+  .flex-between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .list-plain{list-style:none;color:var(--muted);font-size:.85rem;line-height:1.7}
+  .list-plain li{padding-left:18px;position:relative}
+  .list-plain li::before{content:"→";position:absolute;left:0;color:var(--cyan);font-weight:800}
+  @media(max-width:600px){
+    body{padding:10px 10px 130px}
+    .hero h1{font-size:1.6rem}
+    .banner-wrap{padding:0 8px 10px}
+    .banner{padding:11px 13px;gap:10px}
+    .banner .icon{width:40px;height:40px;font-size:1.2rem}
+    .banner .msg{font-size:.82rem}
+    .modal{padding:22px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand">
+    <div class="brand-mark">🛡️</div>
+    <div class="brand-text">
+      <div class="l1">DIGCON SEC</div>
+      <div class="l2">CyberSmart</div>
+    </div>
+  </div>
+  <div id="screen"></div>
+</div>
+<div class="banner-wrap" id="bannerWrap"></div>
+
+<script>
+/* ==========================================================
+   DATA — SCENARIOS
+   ========================================================== */
+const MODES = {
+  phishing: {
+    id:'phishing', title:'Phishing Detective',
+    tagline:'Read the inbox. Find the phish.',
+    emoji:'🕵️',
+    desc:'An inbox appears. One email is trying to hack you. Read carefully, then mark the phish. Wrong picks cost points.',
+    color:'#00d4ff'
+  },
+  everyday: {
+    id:'everyday', title:'Everyday Cyber Safety',
+    tagline:'10 random real-life scenarios',
+    emoji:'🌍',
+    desc:'Situations from daily life: messages, calls, giveaways, account alerts, shopping. What should you do?',
+    color:'#22c55e'
+  },
+  family: {
+    id:'family', title:'Family Protector',
+    tagline:'Protect the people you love',
+    emoji:'👨‍👩‍👧‍👦',
+    desc:'Your mother gets a fake bank call. Your child is contacted by a stranger. Your sibling gets a suspicious link. How do you protect them?',
+    color:'#ffd93d'
+  },
+  business: {
+    id:'business', title:'Business Defender',
+    tagline:'Small business, serious risks',
+    emoji:'🏪',
+    desc:'Fake transfer receipts, stolen laptops, employee mistakes, supplier scams. Protect your shop.',
+    color:'#a06bff'
+  },
+  spot: {
+    id:'spot', title:'Spot the Danger',
+    tagline:'Identify suspicious signs',
+    emoji:'🔎',
+    desc:'Fake bank messages, suspicious links, fake recruiters. Read the content and identify what\'s wrong.',
+    color:'#00d4ff'
+  },
+  decide: {
+    id:'decide', title:'What Would You Do?',
+    tagline:'Real incidents. Real decisions.',
+    emoji:'💡',
+    desc:'You lost your phone. Your computer says it\'s encrypted. A friend needs urgent money. What now?',
+    color:'#22c55e'
+  }
+};
+
+const SCENARIOS = [];
+
+// ============ EVERYDAY CYBER SAFETY ============
+const EVERYDAY = [
+  {id:'EV-001', mode:'everyday', category:'Banking & Finance', attack:'Phishing', difficulty:'Beginner',
+   scenario:'Your phone buzzes. A text message says: "UBA ALERT: Your account will be BLOCKED in 24 hours. Verify now: ubagroup-secure.com/verify."',
+   question:'What should you do?',
+   options:['Tap the link and enter your details quickly','Reply STOP to the message','Ignore the link. Open your bank app or call the official bank number to check.','Forward it to friends so they are warned'],
+   correctAnswer:2,
+   explanation:'Banks do not block accounts through random links in SMS. The link goes to a fake site that will steal your password and OTP.',
+   lesson:'Always open your bank app directly or use the official phone number printed on your card.',
+   consequence:'Your account could be emptied within minutes of entering your details.',
+   didYouKnow:'Bank SMS alerts never ask you to click a link to "verify" your account. That is a classic phishing move.',
+   points:10},
+  {id:'EV-002', mode:'everyday', category:'Personal Cyber Safety', attack:'OTP theft', difficulty:'Beginner',
+   scenario:'A man calls and says he is from "Customer Care". He knows your name and asks for the 6-digit OTP sent to your phone to "reverse a wrong transfer".',
+   question:'What should you do?',
+   options:['Give him the OTP since he knows your name','Give him a fake OTP','Hang up. Never share your OTP with anyone — not even a "bank official".','Send him a screenshot of the SMS'],
+   correctAnswer:2,
+   explanation:'Banks will NEVER ask for your OTP over the phone. The caller is trying to approve a transaction on your account.',
+   lesson:'Treat your OTP like your ATM PIN. If someone asks for it, it is a scam.',
+   consequence:'Once the OTP is shared, the attacker can approve transactions and empty your account.',
+   didYouKnow:'OTP means "One-Time Password." It is the second lock on your account — sharing it is like giving someone your PIN.',
+   points:10},
+  {id:'EV-003', mode:'everyday', category:'Social Media', attack:'Giveaway scam', difficulty:'Beginner',
+   scenario:'On WhatsApp you receive: "Congratulations! You have won a brand-new iPhone from a promo. Click this link and share with 20 contacts to claim."',
+   question:'What should you do?',
+   options:['Click the link — it is a real promo','Share with 20 friends to claim your prize','Ignore and delete. Real promos never require you to share with contacts or click unsolicited links.','Reply asking for more details first'],
+   correctAnswer:2,
+   explanation:'You did not enter any promo — so you cannot win it. This is a mass-shared scam. Clicking can install malware or steal your account.',
+   lesson:'If you did not enter, you did not win. Real brands announce winners through official pages.',
+   consequence:'Your WhatsApp account could be hijacked and used to scam your contacts.',
+   didYouKnow:'Fake giveaways are among the most-shared scams on WhatsApp — they spread because friends share them.',
+   points:10},
+  {id:'EV-004', mode:'everyday', category:'Personal Cyber Safety', attack:'Account alert', difficulty:'Beginner',
+   scenario:'An email says: "Your Netflix payment failed. Update your card within 24 hours or your account will be suspended." The sender is info@netflix-billing-support.com.',
+   question:'What should you do?',
+   options:['Click the link and update your card','Reply with your card details','Open the Netflix app or type netflix.com yourself to check — the email is fake.','Ignore it for a week'],
+   correctAnswer:2,
+   explanation:'The sender is netflix-billing-support.com, not netflix.com. Legit companies do not use lookalike domains or threaten 24-hour suspension.',
+   lesson:'Never click links in payment alerts — go to the site directly by typing the address.',
+   consequence:'Your card details could be sold and used for fraud.',
+   didYouKnow:'Adding words like "support," "secure," or "verify" to a domain is a common phishing trick.',
+   points:10},
+  {id:'EV-005', mode:'everyday', category:'Personal Cyber Safety', attack:'Password reuse', difficulty:'Beginner',
+   scenario:'A friend says you can use the same password "Password123" on every account so you never forget it.',
+   question:'What should you do?',
+   options:['Use the same password everywhere — it is easier','Write passwords on paper and post them on your wall','Use different passwords for each account and a password manager to remember them.','Use your date of birth as password'],
+   correctAnswer:2,
+   explanation:'If one site is breached, attackers try the same password on every other service (called "credential stuffing").',
+   lesson:'Use a unique, long password per account. A password manager makes it easy.',
+   consequence:'One hacked site could give attackers access to your email, bank, and social media at once.',
+   didYouKnow:'Hundreds of millions of leaked passwords circulate online. Reused ones are tried everywhere automatically.',
+   points:10},
+  {id:'EV-006', mode:'everyday', category:'General Digital Safety', attack:'Software update', difficulty:'Beginner',
+   scenario:'Your phone shows a pop-up: "Your device is 83% at risk. Install this antivirus NOW!" The pop-up came from a random website.',
+   question:'What should you do?',
+   options:['Install the antivirus immediately','Click the pop-up to see more details','Close the tab. Only install apps from official stores. Update your system through Settings.','Disable all security warnings'],
+   correctAnswer:2,
+   explanation:'Pop-ups from websites are often fake — the "antivirus" installs malware. Real security updates come through your phone\'s Settings.',
+   lesson:'Only install apps from Google Play or the App Store. Update your OS through Settings.',
+   consequence:'The "antivirus" could be spyware that steals your information.',
+   didYouKnow:'A pop-up from a website cannot scan your device — it is a trick to get you to install something.',
+   points:10},
+  {id:'EV-007', mode:'everyday', category:'Online Shopping', attack:'Delivery scam', difficulty:'Beginner',
+   scenario:'You receive a message: "Your package is delayed. Pay ₦2,500 delivery fee here: bit.ly/payfee." You are not expecting a delivery.',
+   question:'What should you do?',
+   options:['Pay ₦2,500 — it is small money','Click and see what it is first','Do not click. Delete it. You did not order anything, so there is nothing to pay.','Reply asking which package it is'],
+   correctAnswer:2,
+   explanation:'This is a fake delivery scam that harvests card details. Even small payments lead to bigger fraud.',
+   lesson:'If you are not expecting a delivery, do not engage. Even if you are, check with the official courier app.',
+   consequence:'The card details entered on the fake page can be used for larger fraudulent charges.',
+   didYouKnow:'Fake delivery scams spike during holidays and big sales. Attackers rely on people expecting parcels.',
+   points:10},
+  {id:'EV-008', mode:'everyday', category:'Banking & Finance', attack:'Investment scam', difficulty:'Intermediate',
+   scenario:'A WhatsApp group shares screenshots of people earning "₦50,000 daily" from a "crypto investment". You just need to send ₦10,000 to "activate" your account.',
+   question:'What should you do?',
+   options:['Send ₦10,000 quickly — the offer may close','Ask a friend to test it first','Leave the group. Investments do not require you to send money to activate an account.','Send ₦5,000 as a smaller test'],
+   correctAnswer:2,
+   explanation:'This is a Ponzi scheme. Early members get paid with later members\' money — most people lose everything when it collapses.',
+   lesson:'If it promises quick high returns, it is a scam. Only invest through licensed platforms.',
+   consequence:'You lose all the money you send. Recovery is almost impossible.',
+   didYouKnow:'Ponzi schemes always work at first — that is how they build trust. They collapse on purpose once they have enough victims.',
+   points:10},
+  {id:'EV-009', mode:'everyday', category:'Social Media', attack:'Romance scam', difficulty:'Intermediate',
+   scenario:'Someone very attractive follows you on Instagram and starts messaging daily. After two weeks they say they love you and need ₦200,000 urgently for a "hospital emergency".',
+   question:'What should you do?',
+   options:['Send the money — you love them too','Send half and see what happens','Refuse. Stop talking to them. Real love is not built on emergency money requests.','Ask them to video call and then send'],
+   correctAnswer:2,
+   explanation:'Romance scams build fake trust then exploit it. Urgent money for a stranger you have never met in person is a scam.',
+   lesson:'Never send money to someone you have not met in person, regardless of how long you have chatted.',
+   consequence:'You will lose the money and the "relationship" will vanish or demand more.',
+   didYouKnow:'Romance scammers often steal photos and run hundreds of victims at once using scripts.',
+   points:10},
+  {id:'EV-010', mode:'everyday', category:'Public Wi-Fi', attack:'Unsecured network', difficulty:'Beginner',
+   scenario:'At a café, you connect to free Wi-Fi called "Cafe_WiFi_Free" to check your bank balance. The Wi-Fi had no password.',
+   question:'What should you do next time?',
+   options:['Continue using it — free Wi-Fi is convenient','Use it but type fast','Avoid banking on public Wi-Fi. Use your mobile data for sensitive activities.','Ask a staff member for the router password'],
+   correctAnswer:2,
+   explanation:'Open public Wi-Fi can be monitored or spoofed. Attackers can intercept your traffic.',
+   lesson:'Use mobile data for banking and sensitive logins. Public Wi-Fi is for browsing, not banking.',
+   consequence:'Login credentials and card data could be captured by someone on the network.',
+   didYouKnow:'Attackers sometimes create a fake Wi-Fi with a similar name to lure users (called a "Wi-Fi pineapple").',
+   points:10}
+];
+
+// ============ FAMILY PROTECTOR ============
+const FAMILY = [
+  {id:'FA-001', mode:'family', category:'Family & Parental Safety', attack:'Impersonation', difficulty:'Beginner',
+   scenario:'Your mother calls you in a panic. "Someone from the bank called and said they would block my account. I gave them my OTP before I realised."',
+   question:'What should you do first?',
+   options:['Tell her to call the same number back','Tell her to ignore it — nothing will happen','Immediately call the bank\'s official line to freeze the account, then change passwords.','Wait until the next day to see if the money is missing'],
+   correctAnswer:2,
+   explanation:'Once an OTP is shared, the attacker can act within seconds. Speed matters — freezing the account stops theft.',
+   lesson:'If OTP is shared, call the bank immediately. Every minute counts.',
+   consequence:'Money could leave the account within minutes if the bank is not alerted.',
+   didYouKnow:'Banks have a fraud line — save it in your phone right now for emergencies.',
+   points:10},
+  {id:'FA-002', mode:'family', category:'Family & Parental Safety', attack:'Fake account', difficulty:'Beginner',
+   scenario:'Your father\'s photo appears on a new WhatsApp account sending you a message: "My phone spoilt, new number — please send ₦50,000 urgently."',
+   question:'What should you do?',
+   options:['Send the money — it is your father','Ask him to send a photo of himself with the money','Call his known old number to confirm. Do not send money to a new number.','Send half and see'],
+   correctAnswer:2,
+   explanation:'Anyone can copy a photo and create a fake account. Always verify through a known channel.',
+   lesson:'Call the real person at their known number. Never send money to a new number based on WhatsApp alone.',
+   consequence:'You lose the money to a scammer pretending to be your parent.',
+   didYouKnow:'Impersonation scams rise during festivals and school resumption when families send money.',
+   points:10},
+  {id:'FA-003', mode:'family', category:'Family & Parental Safety', attack:'Child exploitation', difficulty:'Intermediate',
+   scenario:'Your 12-year-old child shows you a chat from a "gaming friend" who asks: "What school do you attend? Send me a photo of your street so I can visit."',
+   question:'What should you do?',
+   options:['Tell your child to answer casually','Answer it yourself so you can see what happens','Block and report the account. Talk to your child about never sharing personal information online.','Ask the friend to video call first'],
+   correctAnswer:2,
+   explanation:'Strangers asking for a child\'s school, street, or photos are a serious red flag for exploitation.',
+   lesson:'Children should never share their school, address, or photos with strangers online.',
+   consequence:'The stranger could locate your child or groom them for exploitation.',
+   didYouKnow:'Child-grooming scams often start in games, chat rooms, or "fan" communities.',
+   points:10},
+  {id:'FA-004', mode:'family', category:'Family & Parental Safety', attack:'Fake emergency', difficulty:'Beginner',
+   scenario:'Your sibling receives a message: "This is your cousin. I had an accident and need ₦80,000 for treatment. Please help, I will explain later." The number is new.',
+   question:'What should you do?',
+   options:['Send the money — family needs help','Send a small amount first','Call the cousin\'s known number or another family member to verify before sending anything.','Ask them to call you from the new number'],
+   correctAnswer:2,
+   explanation:'Emergency scams exploit kindness. Calling a known number or another relative confirms the truth in under a minute.',
+   lesson:'Verify emergency requests through a call — never by messaging the new number.',
+   consequence:'You lose the money. The real cousin is fine.',
+   didYouKnow:'Scammers often know a family member\'s name because it is on social media.',
+   points:10},
+  {id:'FA-005', mode:'family', category:'Family & Parental Safety', attack:'School scam', difficulty:'Beginner',
+   scenario:'Your child\'s school group on WhatsApp receives: "Vacation lessons at ₦15,000 — pay to account 0123456789 before Friday." The sender is a teacher, but the message has no letterhead.',
+   question:'What should you do?',
+   options:['Pay immediately — the teacher sent it','Ignore it entirely','Call the teacher or school office to confirm the account number before paying.','Ask another parent to pay first'],
+   correctAnswer:2,
+   explanation:'WhatsApp accounts get hijacked and used to scam parents. Confirming by phone is a 30-second check.',
+   lesson:'Verify bank details through a direct call — never just the message.',
+   consequence:'You could pay a hijacked account that has nothing to do with the school.',
+   didYouKnow:'Schools do not change bank accounts via WhatsApp — always call to confirm.',
+   points:10},
+  {id:'FA-006', mode:'family', category:'Family & Parental Safety', attack:'Social media privacy', difficulty:'Beginner',
+   scenario:'Your teenage child\'s Instagram is public, with photos of the house, school uniform, and daily timetable visible.',
+   question:'What should you do?',
+   options:['Nothing — it is just Instagram','Delete the account','Help them set the account to private and remove personal location, school, and schedule details.','Tell them to post less frequently'],
+   correctAnswer:2,
+   explanation:'Public profiles with location, school, and schedule details can be used by stalkers or scammers.',
+   lesson:'Set social media to private and remove information that reveals your child\'s daily location.',
+   consequence:'A stranger could learn where your child goes to school and when.',
+   didYouKnow:'Location tags and school names are among the biggest risks for minors on social media.',
+   points:10},
+  {id:'FA-007', mode:'family', category:'Family & Parental Safety', attack:'Gift scam', difficulty:'Beginner',
+   scenario:'Your younger sibling gets a DM: "You have been selected for a ₦50,000 gift. Click here and pay ₦1,000 for processing."',
+   question:'What should you do?',
+   options:['Pay — ₦1,000 is small','Click to see the offer','Tell them to ignore and block. Real gifts never require a payment first.','Ask for proof before paying'],
+   correctAnswer:2,
+   explanation:'A real gift never asks for processing fees. That is how scammers harvest card details and bank accounts.',
+   lesson:'If you must pay to receive a "gift," it is not a gift — it is a scam.',
+   consequence:'The card details entered could be used to drain the account.',
+   didYouKnow:'Advance-fee scams rely on small upfront payments — then they grow larger.',
+   points:10},
+  {id:'FA-008', mode:'family', category:'Family & Parental Safety', attack:'Account takeover', difficulty:'Intermediate',
+   scenario:'Your sister\'s Facebook starts posting "I need ₦30,000 urgently" to friends. Her account was hijacked.',
+   question:'What should you do?',
+   options:['Send money to help her','Ignore the posts','Tell her to recover her account through Facebook, warn friends not to send money, and change passwords.','Help her post more information'],
+   correctAnswer:2,
+   explanation:'Hijacked accounts are used to scam friends. Recovery through the platform is the first step.',
+   lesson:'If a friend\'s account asks for money, call them directly to verify. Tell them to recover the account.',
+   consequence:'Friends who trust her could lose money before she locks the account.',
+   didYouKnow:'A hijacked Facebook can be recovered in minutes through facebook.com/hacked.',
+   points:10},
+  {id:'FA-009', mode:'family', category:'Family & Parental Safety', attack:'Digital reputation', difficulty:'Intermediate',
+   scenario:'A relative posts on a public forum about a family dispute, sharing full names, address, and photos of the house.',
+   question:'What should you do?',
+   options:['Reply publicly to defend the family','Ignore it and hope it goes away','Ask them privately to remove the post and explain the risk of exposing personal information.','Report the relative to the police'],
+   correctAnswer:2,
+   explanation:'Public posts with full identifying details can be used for impersonation, harassment, or even burglary.',
+   lesson:'Never post your address, family details, or identifying documents publicly.',
+   consequence:'The information could be used for impersonation or targeted scams.',
+   didYouKnow:'Impersonators often build fake profiles using family information scraped from public posts.',
+   points:10},
+  {id:'FA-010', mode:'family', category:'Family & Parental Safety', attack:'Elderly fraud', difficulty:'Intermediate',
+   scenario:'Your grandmother receives a letter that says she has "won" a ₦2 million lottery and must send ₦5,000 in a gift card for "processing".',
+   question:'What should you do?',
+   options:['Help her send the money','Let her decide','Explain it is a scam, help her report it, and check if she has shared any account details.','Ignore it — it will pass'],
+   correctAnswer:2,
+   explanation:'Lottery scams target the elderly. Real lotteries never require a gift card to release winnings.',
+   lesson:'Talk to elderly relatives about common scams. Reduce their exposure to unfamiliar calls and messages.',
+   consequence:'The money could be lost, and worse, her account details could be harvested.',
+   didYouKnow:'Gift cards are the scammer\'s favourite payment — they are untraceable and hard to reverse.',
+   points:10}
+];
+
+// ============ BUSINESS DEFENDER ============
+const BUSINESS = [
+  {id:'BU-001', mode:'business', category:'Business & Market Safety', attack:'Fake receipt', difficulty:'Intermediate',
+   scenario:'A customer shows a bank transfer screenshot of ₦150,000 for goods in your shop. Your alert has not received any money yet.',
+   question:'What should you do?',
+   options:['Release the goods — the screenshot looks real','Release half the goods','Check your actual bank app or USSD balance. Screenshots can be faked or reversed. Wait for the real credit.','Trust the customer\'s word'],
+   correctAnswer:2,
+   explanation:'Screenshots are easy to fake or generate with "fake transfer" apps. Only the actual bank balance is truth.',
+   lesson:'Always verify payment with your own bank app, not a customer\'s screenshot.',
+   consequence:'You lose ₦150,000 worth of goods with no real payment received.',
+   didYouKnow:'Fake bank-alert apps let scammers display perfect "sent" screenshots. Never trust a screenshot.',
+   points:10},
+  {id:'BU-002', mode:'business', category:'Business & Market Safety', attack:'Supplier scam', difficulty:'Intermediate',
+   scenario:'An email from your regular supplier says: "We have changed bank accounts. Please send next payment to the new account below." The email domain is almost identical to the supplier\'s.',
+   question:'What should you do?',
+   options:['Pay immediately — it is your supplier','Reply to the email asking to confirm','Call the supplier on their known phone number to verify before paying.','Ask the supplier to send a letter'],
+   correctAnswer:2,
+   explanation:'Business email compromise often fakes a bank-account change. Verify by phone — not by replying to the email.',
+   lesson:'Always confirm account-change requests by calling a known number.',
+   consequence:'You could pay scammers and still owe the real supplier.',
+   didYouKnow:'This attack is called Business Email Compromise (BEC) — it costs businesses billions each year.',
+   points:10},
+  {id:'BU-003', mode:'business', category:'Workplace Security', attack:'Suspicious attachment', difficulty:'Beginner',
+   scenario:'An employee forwards you an email saying "Invoice_Overdue.pdf.exe — please open immediately". The sender is billing@acme-supplier-mail.com.',
+   question:'What should you do?',
+   options:['Open the attachment to check the invoice','Forward it to other staff','Delete without opening. The ".exe" indicates a program, not a PDF, and the sender domain is fake.','Reply asking for more information'],
+   correctAnswer:2,
+   explanation:'A file ending in .exe is a program that can install malware. Legit invoices are PDFs from known senders.',
+   lesson:'Never open .exe, .zip, or unexpected attachments. Verify with the sender by phone.',
+   consequence:'Opening it could install ransomware and lock all company files.',
+   didYouKnow:'Windows often hides real file extensions — a "PDF" might really be ".pdf.exe".',
+   points:10},
+  {id:'BU-004', mode:'business', category:'Business & Market Safety', attack:'Laptop theft', difficulty:'Intermediate',
+   scenario:'A business laptop containing customer records is stolen from a staff car overnight.',
+   question:'What should you do FIRST?',
+   options:['Wait to see if the laptop turns up','Post about it on social media','Change all passwords for accounts on the laptop and alert affected customers if sensitive data is exposed.','Buy a replacement and move on'],
+   correctAnswer:2,
+   explanation:'The thief may access stored data. Passwords must be reset immediately. Depending on data, customers may need to be alerted.',
+   lesson:'Encrypt laptops and use remote wipe. Never store customer data unencrypted on a portable device.',
+   consequence:'Customer data exposure can lead to identity theft and legal liability.',
+   didYouKnow:'BitLocker and FileVault can encrypt a laptop — thief cannot read the disk.',
+   points:10},
+  {id:'BU-005', mode:'business', category:'Workplace Security', attack:'Insider risk', difficulty:'Intermediate',
+   scenario:'An employee shares the company\'s shared bank-portal password with a friend outside the company "so they could help with work."',
+   question:'What should you do?',
+   options:['Ignore it — nothing bad happened','Just ask them not to share it again','Immediately change the password, revoke access, and remind staff never to share credentials.','Fire the employee'],
+   correctAnswer:2,
+   explanation:'Shared credentials mean no one knows who did what. The first step is to contain the exposure.',
+   lesson:'Use individual accounts, never shared passwords. Enable 2FA on financial systems.',
+   consequence:'Unauthorised transactions could occur. Financial systems require individual accountability.',
+   didYouKnow:'Sharing passwords is one of the most common causes of business account compromise.',
+   points:10},
+  {id:'BU-006', mode:'business', category:'Business & Market Safety', attack:'POS fraud', difficulty:'Intermediate',
+   scenario:'A customer insists on "swapping" your POS machine with theirs for a "network issue" — your POS works fine.',
+   question:'What should you do?',
+   options:['Allow the swap — customer is always right','Allow the swap and watch closely','Politely refuse. Never swap POS machines. Offer an alternative payment method.','Ask them to come back later'],
+   correctAnswer:2,
+   explanation:'POS-swap is a known fraud where the fraudulent terminal is used to duplicate card data or hide a fake transaction.',
+   lesson:'Never accept a stranger\'s POS terminal. Use only your own verified equipment.',
+   consequence:'Customer card data could be stolen through your business, damaging your reputation and inviting legal problems.',
+   didYouKnow:'POS skimming devices can also be placed on card slots for seconds to steal data.',
+   points:10},
+  {id:'BU-007', mode:'business', category:'Business & Market Safety', attack:'File loss', difficulty:'Intermediate',
+   scenario:'You arrive in the morning and files on the business computer are missing. A message appears: "Your files are encrypted. Pay ₦200,000 in Bitcoin to recover them."',
+   question:'What should you do?',
+   options:['Pay the ransom quickly','Keep working — the files will return','Disconnect the computer from the network, do NOT pay, and restore from your most recent backup.','Delete the computer\'s files'],
+   correctAnswer:2,
+   explanation:'Paying encourages attackers and often does not restore files. Backups are the real solution.',
+   lesson:'Keep regular offline backups. If ransomware hits, disconnect and restore.',
+   consequence:'Paying could double the demand, and files may never return.',
+   didYouKnow:'Ransomware attacks increased sharply against small businesses — most have no backup.',
+   points:10},
+  {id:'BU-008', mode:'business', category:'Workplace Security', attack:'USB drop', difficulty:'Intermediate',
+   scenario:'An employee finds a USB drive in the office parking lot labeled "Salaries 2025". They plug it into the office computer.',
+   question:'What should you do?',
+   options:['Plug it in to check — you might find useful info','Give it to a colleague','Never plug in unknown USB drives. Hand it to IT for scanning or disposal.','Copy the files to another laptop first'],
+   correctAnswer:2,
+   explanation:'Dropped USB drives are a known attack method — they auto-run malware that infects the whole network.',
+   lesson:'Never plug in unknown USB devices. Only IT should inspect them.',
+   consequence:'The malware could infect every computer and steal company data.',
+   didYouKnow:'Attackers literally scatter infected USBs outside offices, knowing curiosity will win.',
+   points:10},
+  {id:'BU-009', mode:'business', category:'Business & Market Safety', attack:'Customer data exposure', difficulty:'Intermediate',
+   scenario:'Your receptionist emails a customer list to "everyone in marketing" — but accidentally hits "reply all" including an external vendor.',
+   question:'What should you do?',
+   options:['Ignore it — probably no one noticed','Ask the vendor politely to delete it','Notify the vendor immediately in writing, inform affected customers, and review data-sharing rules.','Blame the receptionist publicly'],
+   correctAnswer:2,
+   explanation:'Customer data exposure requires containment and transparency. Silence can worsen legal and reputational damage.',
+   lesson:'Use encrypted email and double-check recipients before sending customer data.',
+   consequence:'The vendor could misuse the data, exposing you to legal issues.',
+   didYouKnow:'Many countries require you to notify regulators if customer data is exposed.',
+   points:10},
+  {id:'BU-010', mode:'business', category:'Business & Market Safety', attack:'Business continuity', difficulty:'Advanced',
+   scenario:'A power surge damages all business laptops. No backups exist. Customer records, invoices, and business data are gone.',
+   question:'What should the business do going forward?',
+   options:['Buy new laptops and hope it never happens again','Store everything on WhatsApp','Set up automatic encrypted cloud backups and test restores regularly.','Keep all files only on a flash drive'],
+   correctAnswer:2,
+   explanation:'Backups are essential for business survival. They must be automatic and tested.',
+   lesson:'Implement the 3-2-1 rule: 3 copies, 2 media types, 1 offsite.',
+   consequence:'Without backups, a single incident can close a small business forever.',
+   didYouKnow:'The 3-2-1 backup rule protects against theft, fire, and ransomware.',
+   points:10}
+];
+
+// ============ SPOT THE DANGER ============
+const SPOT = [
+  {id:'SP-001', mode:'spot', category:'Social Media Safety', attack:'Fake giveaways', difficulty:'Beginner',
+   scenario:'An Instagram ad: "JUMIA ANNIVERSARY GIVEAWAY — Send ₦1,000 delivery fee to receive a free generator. DM @jumia_official_ng."',
+   question:'What is the main warning sign here?',
+   options:['The price of the generator','The word "anniversary"','You are asked to send money to receive a "free" item from an unofficial account.','The Instagram ad itself'],
+   correctAnswer:2,
+   explanation:'A real giveaway never requires you to pay to receive a prize, and Jumia would use its verified account, not a lookalike.',
+   lesson:'Never pay to receive a "free" item. Verify brand accounts (the blue check is a clue, not a guarantee — but a lookalike account is a red flag).',
+   consequence:'Money is lost and you may be added to a list for future scams.',
+   didYouKnow:'Lookalike accounts often add words like "official," "_ng," or extra letters to appear real.',
+   points:10},
+  {id:'SP-002', mode:'spot', category:'Banking & Finance', attack:'Fake bank alert', difficulty:'Beginner',
+   scenario:'SMS: "GTBank: Your account has been DEBITED ₦45,000. If this was not you, call 0803-555-XXXX."',
+   question:'What is suspicious?',
+   options:['The amount is too small','You do not have a GTBank account OR the number does not match any official GTBank line.','The SMS is too short','The word "DEBITED"'],
+   correctAnswer:1,
+   explanation:'Real bank SMS uses short official numbers and never asks you to call a random mobile number. Attackers use a fake number to scam you further.',
+   lesson:'Ignore any alert asking you to call a number not printed on your card or official bank app.',
+   consequence:'You might call the scammer and give them more information.',
+   didYouKnow:'Banks publish their real phone numbers on official sites — save them in your contacts.',
+   points:10},
+  {id:'SP-003', mode:'spot', category:'Workplace Security', attack:'Fake recruiter', difficulty:'Beginner',
+   scenario:'A LinkedIn message: "You have been shortlisted for a ₦450k/month remote role at a UK firm. Pay a ₦10,000 onboarding fee to receive your offer letter."',
+   question:'What is the main warning sign?',
+   options:['The salary is too high','You must pay to get a job offer','The company is in the UK','The message is on LinkedIn'],
+   correctAnswer:1,
+   explanation:'Real employers never ask candidates to pay to receive a job offer. Any "onboarding fee" is a scam.',
+   lesson:'Never pay for a job. Real recruiters send offer letters free.',
+   consequence:'You lose money and personal information that could be used for identity theft.',
+   didYouKnow:'Employment scams target job seekers, especially young graduates.',
+   points:10},
+  {id:'SP-004', mode:'spot', category:'Online Shopping', attack:'Fake shop', difficulty:'Beginner',
+   scenario:'A Facebook shop page: "BLACK FRIDAY: iPhone 15 Pro for ₦85,000! Only available via WhatsApp. Payment to personal account only."',
+   question:'What are the main warning signs?',
+   options:['The low price only','The discount only','The price is suspiciously low AND payment is to a personal account instead of the business.','The Facebook ad'],
+   correctAnswer:2,
+   explanation:'Both the unreal price and personal-account payment are red flags. Real businesses accept official payment and have verified pages.',
+   lesson:'Compare prices with trusted retailers. Always pay through official channels — never personal accounts.',
+   consequence:'You pay and never receive the item. Recovery is difficult.',
+   didYouKnow:'Fake online shops copy product photos and vanish after taking payment.',
+   points:10},
+  {id:'SP-005', mode:'spot', category:'Banking & Finance', attack:'Phishing link', difficulty:'Beginner',
+   scenario:'A message from "Access Bank": "Dear customer, click here to update your BVN and unlock your account: accessbank-verify.com.ng."',
+   question:'What is suspicious?',
+   options:['The word "customer"','The URL is not the bank\'s real website (accessbankplc.com).','The message is too short','BVN updates cannot be done online'],
+   correctAnswer:1,
+   explanation:'Real banks use their official domain. A lookalike like accessbank-verify.com.ng is a phishing site.',
+   lesson:'Never click links in messages that ask for BVN, OTP, or passwords. Always use the official app.',
+   consequence:'BVN and account details could be stolen for fraud or loans in your name.',
+   didYouKnow:'Typosquatting is when attackers create domains that look like real brands with small changes.',
+   points:10},
+  {id:'SP-006', mode:'spot', category:'Personal Cyber Safety', attack:'Fake bank message', difficulty:'Beginner',
+   scenario:'Email from "First Bank": "Dear FIRST BANK Customer, your account will be SUSPENDED. Click below to re-activate: firstbank-secure.net."',
+   question:'What is the main warning sign?',
+   options:['The all-caps "SUSPENDED" only','The sender domain is firstbank-secure.net, not firstbanknigeria.com.','The message is too long','Real banks do not email at all'],
+   correctAnswer:1,
+   explanation:'Lookalike domains + threatening language are classic phishing. Real bank emails use official domains.',
+   lesson:'Verify domains character-by-character. If you have never received emails from your bank before, a first email is worth double-checking.',
+   consequence:'Account credentials stolen.',
+   didYouKnow:'Attackers register domains that swap "i" for "l", "rn" for "m", or add "secure" prefixes.',
+   points:10},
+  {id:'SP-007', mode:'spot', category:'Personal Cyber Safety', attack:'Account takeover', difficulty:'Intermediate',
+   scenario:'Instagram DM: "I am from Instagram support. Your account will be deleted for impersonation. Click here and log in to confirm your identity."',
+   question:'What is suspicious?',
+   options:['The word "support"','Instagram would not DM you from a personal handle, and it would never ask you to log in to a link via DM.','The length of the DM','The threat of deletion'],
+   correctAnswer:1,
+   explanation:'Real platforms never DM you a login link to "verify" your account.',
+   lesson:'Never enter your password through a link in a DM. Open the app directly.',
+   consequence:'Your Instagram account could be taken over and used for scams.',
+   didYouKnow:'Even legitimate support does not DM you asking you to log in.',
+   points:10},
+  {id:'SP-008', mode:'spot', category:'Banking & Finance', attack:'Investment scam', difficulty:'Intermediate',
+   scenario:'A WhatsApp group shares screenshots showing consistent ₦30,000 daily profits. The "admin" says: "Send ₦5,000 today to activate your daily earnings."',
+   question:'What is the main warning sign?',
+   options:['The number of members','The consistent profits and required upfront payment','The screenshots','The WhatsApp group itself'],
+   correctAnswer:1,
+   explanation:'Guaranteed daily high returns do not exist. A required "activation fee" is a Ponzi/pyramid red flag.',
+   lesson:'If returns are "guaranteed," it is a scam. Legitimate investments carry risk and are regulated.',
+   consequence:'The group collapses and payments stop. Money is lost.',
+   didYouKnow:'Screenshots in investment scams are the easiest part to fake — they take seconds to make.',
+   points:10},
+  {id:'SP-009', mode:'spot', category:'Social Media Safety', attack:'Fake profile', difficulty:'Intermediate',
+   scenario:'A new profile uses your friend\'s name, photo, and bio, but only has 4 friends and was created last week. It DMs you: "Please send my new account a loan of ₦20,000."',
+   question:'What is suspicious?',
+   options:['The profile photo','A newly created profile with few friends is likely a fake impersonating your friend.','The bio is copied','The name is the same'],
+   correctAnswer:1,
+   explanation:'A new profile with a few friends and a request for money is a classic impersonation.',
+   lesson:'Verify requests for money by calling the friend directly.',
+   consequence:'You send money to a scammer, not your friend.',
+   didYouKnow:'Scammers copy entire profiles — check "joined" date and friend count.',
+   points:10},
+  {id:'SP-010', mode:'spot', category:'Workplace Security', attack:'Phishing email', difficulty:'Beginner',
+   scenario:'A work email: "From: CEO [ceo.name@yourcompany-hq.co]" — "URGENT: Purchase 5 gift cards. Keep this confidential and act fast."',
+   question:'What is the main warning sign?',
+   options:['The caps lock','The sender address is not your company\'s real domain, and urgent gift card requests are a classic CEO fraud.','The mention of gift cards only','The word "confidential"'],
+   correctAnswer:1,
+   explanation:'Both the fake domain and gift-card urgency are red flags. Real executives would not request gift cards by email.',
+   lesson:'Always verify unusual CEO requests by a phone call. Gift-card requests = scam.',
+   consequence:'Company money is lost and no gift cards can be recovered.',
+   didYouKnow:'Gift-card fraud is the #1 business email compromise scam.',
+   points:10}
+];
+
+// ============ WHAT WOULD YOU DO? ============
+const DECIDE = [
+  {id:'DE-001', mode:'decide', category:'General Digital Safety', attack:'Lost device', difficulty:'Beginner',
+   scenario:'You realise your phone is missing while you are at a market. It contains your bank app, email, and social accounts.',
+   question:'What should you do FIRST?',
+   options:['Post about it on Facebook and wait','Buy a new phone immediately','Use a friend\'s phone to log into Google/Apple and remotely lock + wipe the device, and call your bank to freeze the app.','Return to the market and search'],
+   correctAnswer:2,
+   explanation:'Remote lock/wipe + freezing bank access are the first steps to prevent misuse.',
+   lesson:'Enable "Find My Device" (Google) or "Find My" (Apple) on every phone. Save bank fraud lines.',
+   consequence:'Without action, the thief could access your bank, email, and social accounts.',
+   didYouKnow:'You can also log out of Google/Apple sessions from any browser to kick the phone offline.',
+   points:10},
+  {id:'DE-002', mode:'decide', category:'Banking & Finance', attack:'Ransomware', difficulty:'Intermediate',
+   scenario:'Your computer suddenly shows: "Your files are encrypted. Pay $300 in Bitcoin within 48 hours to recover them."',
+   question:'What should you do?',
+   options:['Pay quickly to recover your files','Restart the computer several times','Disconnect from the internet, do NOT pay, and restore your files from your last backup.','Email the attacker to negotiate'],
+   correctAnswer:2,
+   explanation:'Paying does not guarantee recovery and encourages more attacks. Restore from backup is the safe answer.',
+   lesson:'Keep regular backups. If infected, disconnect and restore.',
+   consequence:'Paying could expose more data and cost more money.',
+   didYouKnow:'Ransomware also steals data — paying does not prevent it from being leaked.',
+   points:10},
+  {id:'DE-003', mode:'decide', category:'Social Media', attack:'Friend request scam', difficulty:'Beginner',
+   scenario:'A friend\'s account suddenly messages you: "I have a favour — send me your WhatsApp verification code."',
+   question:'What should you do?',
+   options:['Send the code — they are a friend','Reply with a screenshot','Do not send it. Their account may be compromised. Call them on the phone to confirm.','Ask why they need it first'],
+   correctAnswer:2,
+   explanation:'Verification codes are the key to your account. A compromised friend account is the classic path for this attack.',
+   lesson:'Never share verification codes. Call the person directly.',
+   consequence:'The attacker takes over your WhatsApp and scams your contacts.',
+   didYouKnow:'Once your WhatsApp is hijacked, the attacker can impersonate you to everyone.',
+   points:10},
+  {id:'DE-004', mode:'decide', category:'Personal Cyber Safety', attack:'Mis-sent document', difficulty:'Intermediate',
+   scenario:'You accidentally email a document with your BVN, ID card, and bank statement to the wrong person — a stranger with a similar email address.',
+   question:'What should you do?',
+   options:['Wait to see if they reply','Ignore it — probably no one will use it','Contact the recipient to request deletion, monitor your bank and credit reports, and report to the bank if suspicious activity appears.','Delete the sent item from your inbox'],
+   correctAnswer:2,
+   explanation:'Identity documents in the wrong hands can be used for fraud, loans, or impersonation.',
+   lesson:'Use password-protected PDFs for sensitive documents. Double-check recipients before sending.',
+   consequence:'Your identity could be used to open accounts or take loans in your name.',
+   didYouKnow:'BVN + ID + statement is a powerful combination for identity fraud.',
+   points:10},
+  {id:'DE-005', mode:'decide', category:'Social Media', attack:'Account recovery', difficulty:'Intermediate',
+   scenario:'You cannot log into your Instagram. Your email password no longer works either. Your account starts posting strange messages.',
+   question:'What should you do?',
+   options:['Create a new account and move on','Wait — it will fix itself','Use the platform\'s recovery flow, reset email password first, enable 2FA, and warn contacts.','Post a warning from another account only'],
+   correctAnswer:2,
+   explanation:'The email is the primary recovery key. Regain email access first, then recover the social account and add 2FA.',
+   lesson:'Secure your email first — it controls all your other accounts.',
+   consequence:'Without 2FA, the attacker can keep taking over the account repeatedly.',
+   didYouKnow:'2FA via an authenticator app is safer than SMS codes.',
+   points:10},
+  {id:'DE-006', mode:'decide', category:'Workplace Security', attack:'Suspicious link', difficulty:'Beginner',
+   scenario:'A colleague forwards you an email: "Check out this hilarious video!" — a shortened link. You do not recognise the sender.',
+   question:'What should you do?',
+   options:['Click it — it is from a colleague','Click it and close if suspicious','Do not click. Ask the colleague directly if they really sent it. Suspicious links are commonly spread by compromised accounts.','Forward it to a friend to test'],
+   correctAnswer:2,
+   explanation:'Compromised accounts spread links to install malware. Confirm with the person.',
+   lesson:'Never click shortened links from unfamiliar senders. Verify with the person.',
+   consequence:'Clicking could install malware on your device or steal your login.',
+   didYouKnow:'Shortened links (bit.ly, t.ly) hide their real destination — always preview before clicking.',
+   points:10},
+  {id:'DE-007', mode:'decide', category:'Banking & Finance', attack:'Card fraud', difficulty:'Intermediate',
+   scenario:'You receive a bank alert: a ₦75,000 charge you do not recognise. The card is in your wallet, but you used it recently at a new restaurant.',
+   question:'What should you do FIRST?',
+   options:['Wait for the next statement','Call the restaurant to complain','Call your bank immediately to dispute the charge and block the card.','Post about it on social media'],
+   correctAnswer:2,
+   explanation:'Fraud on a live card can continue. Freezing the card is the fastest way to stop it.',
+   lesson:'Act fast. Disputes are easier when reported immediately.',
+   consequence:'More fraudulent charges could occur before you react.',
+   didYouKnow:'Card skimming can capture card details at POS terminals and ATMs.',
+   points:10},
+  {id:'DE-008', mode:'decide', category:'General Digital Safety', attack:'Social engineering', difficulty:'Intermediate',
+   scenario:'Someone calls claiming to be from your mobile network and asks you to "verify" by reading out a code they just sent to your phone to "avoid disconnection".',
+   question:'What should you do?',
+   options:['Read the code to avoid disconnection','Read only half of it','Hang up. Never share verification codes — the network already knows who you are.','Ask for their staff ID first'],
+   correctAnswer:2,
+   explanation:'A code sent to your phone is for YOU, not for any caller. Anyone who asks for it is stealing access.',
+   lesson:'Never share any code that arrives on your phone with anyone.',
+   consequence:'Your account (bank, WhatsApp, or social media) could be taken over.',
+   didYouKnow:'This attack works because the code is real — it is a real OTP for a real service. That is why it is dangerous.',
+   points:10},
+  {id:'DE-009', mode:'decide', category:'Personal Cyber Safety', attack:'Safe download', difficulty:'Beginner',
+   scenario:'You need a free PDF editor. A search result says "FREE DOWNLOAD — Installer.exe — 100% safe".',
+   question:'What should you do?',
+   options:['Download and install immediately','Disable antivirus and install','Use only trusted sources (official site or Play Store/App Store), and avoid .exe downloads from random sites.','Ask a friend to install it for you'],
+   correctAnswer:2,
+   explanation:'Random download sites commonly bundle malware. Use official sources.',
+   lesson:'Download software only from official sites or stores.',
+   consequence:'Malware could steal your data or slow your device.',
+   didYouKnow:'"Free download" sites often bundle adware and spyware — even if the main program is real.',
+   points:10},
+  {id:'DE-010', mode:'decide', category:'Social Media', attack:'Cyberbullying', difficulty:'Beginner',
+   scenario:'A classmate is being bullied in a WhatsApp group with cruel comments and edited photos. Other members are sharing.',
+   question:'What should you do?',
+   options:['Join the conversation to fit in','Ignore it — it is not your business','Take screenshots, report the group, block the bullies, and support the classmate. Report to a trusted adult or authority.','Leave the group without saying anything'],
+   correctAnswer:2,
+   explanation:'Silence enables bullying. Evidence + report + support is the appropriate response.',
+   lesson:'Never share embarrassing content. Report, don\'t forward.',
+   consequence:'Without intervention, the victim could suffer serious emotional harm.',
+   didYouKnow:'Sharing an embarrassing photo without consent can be illegal in many countries.',
+   points:10}
+];
+
+SCENARIOS.push(...EVERYDAY, ...FAMILY, ...BUSINESS, ...SPOT, ...DECIDE);
+
+/* PHISHING LEVELS */
+function genPhishingLevels(){
+  const senders = {
+    workDomain:['hr@yourcompany.com','it-support@yourcompany.com','sarah@yourcompany.com','facilities@yourcompany.com'],
+    momDomains:['mom.family@gmail.com','mum.okafor@yahoo.com','mother.ade@gmail.com'],
+  };
+  const recipientLocal = ['you@yourcompany.com','you@gmail.com','staff@yourcompany.com'];
+  const randomFrom = arr => arr[Math.floor(Math.random()*arr.length)];
+
+  return [
+    {
+      title:'Level 1 — The Welcome Email',
+      defender:'One email here is trying to get you to click. Open a few, check the sender\'s real address (not just the name), then mark the phish. Wrong pick = −10 pts.',
+      emails:[
+        {from:'HR Team', addr:randomFrom(senders.workDomain), to:randomFrom(recipientLocal),
+         subj:'Welcome to the team!', time:'9:02 AM', date:'Mon, May 12, 2025 · 9:02 AM',
+         body:'Hi,\n\nAttached is your onboarding packet for your first week.\n\nSee you Monday!\n\n— HR Team',
+         attachments:[{name:'Onboarding_Packet.pdf', size:'2.1 MB'}], evil:false, av:'HR'},
+        {from:'Mom', addr:randomFrom(senders.momDomains), to:randomFrom(recipientLocal),
+         subj:'Sunday lunch?', time:'8:14 AM', date:'Mon, May 12, 2025 · 8:14 AM',
+         body:'Hey sweetie, are you free this Sunday? Bring the kids if you can!\n\nLove, Mom', evil:false, av:'M'},
+        {from:'IT Support', addr:'it-support@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Your laptop is ready', time:'9:15 AM', date:'Mon, May 12, 2025 · 9:15 AM',
+         body:'Your new laptop has been configured.\n\nPick it up from the 3rd floor IT desk anytime today. Please bring your employee badge.\n\n— IT Support', evil:false, av:'IT'},
+        {from:'PayPal Security', addr:'security@paypal-alerts-secure.net', to:randomFrom(recipientLocal),
+         subj:'⚠️ Unusual activity — confirm now', time:'9:41 AM', date:'Mon, May 12, 2025 · 9:41 AM',
+         body:'We detected a login from an unrecognized device on your account.\n\nYour account will be limited in 24 hours unless you confirm your identity immediately.\n\nClick here to confirm: www.paypal-alerts-secure.net/verify\n\nClick below to download the secure verification tool.',
+         links:[{text:'www.paypal-alerts-secure.net/verify', url:'http://www.paypal-alerts-secure.net/verify', real:'paypal-alerts-secure.net (NOT paypal.com)'}],
+         attachments:[{name:'SecureVerifier.exe', size:'412 KB'}], evil:true, av:'PP',
+         why:['Sender domain is <b>paypal-alerts-secure.net</b>, NOT paypal.com — a lookalike.','Fake urgency ("limited in 24 hours") is designed to rush you.','Real companies never ask you to download a "verification tool" (.exe).','Hover the link: the URL points to a lookalike site, not PayPal.']},
+        {from:'Team Standup', addr:'standup@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Standup notes 5/12', time:'9:50 AM', date:'Mon, May 12, 2025 · 9:50 AM',
+         body:'Here are today\'s notes:\n\nBlockers: API rate limits.\nAction: John to follow up with vendor.\n\n— Team Standup Bot', evil:false, av:'TS'}
+      ]
+    },
+    {
+      title:'Level 2 — The Invoice',
+      defender:'This time it looks like business as usual. Check attachments carefully — file extensions betray the attacker.',
+      emails:[
+        {from:'Acme Supplies', addr:'billing@acmesupplies.com', to:randomFrom(recipientLocal),
+         subj:'Invoice #4821 — due Friday', time:'10:05 AM', date:'Mon, May 12, 2025 · 10:05 AM',
+         body:'Hi,\n\nAttached is invoice #4821 for last week\'s delivery. Payment via usual bank transfer.\n\nThanks!',
+         attachments:[{name:'Invoice_4821.pdf', size:'182 KB'}], evil:false, av:'AS'},
+        {from:'Dentist Office', addr:'reminders@brightdental.com', to:randomFrom(recipientLocal),
+         subj:'Appointment reminder — Thursday 3pm', time:'10:12 AM', date:'Mon, May 12, 2025 · 10:12 AM',
+         body:'This is a reminder for your cleaning on Thursday at 3:00 PM.\n\nReply to reschedule.', evil:false, av:'BD'},
+        {from:'DocuSign', addr:'no-reply@docusign-secure-docs.com', to:randomFrom(recipientLocal),
+         subj:'You have a document to sign: \'Q2 Contract.pdf.exe\'', time:'10:31 AM', date:'Mon, May 12, 2025 · 10:31 AM',
+         body:'Please review and sign the attached document.\n\nOpen the file to view.\n\nIf you were not expecting this, contact the sender.\n\n— DocuSign Support',
+         attachments:[{name:'Q2_Contract.pdf.exe', size:'988 KB'}], evil:true, av:'DS',
+         why:['Real DocuSign uses <b>@docusign.com</b>, not docusign-secure-docs.com.','The filename ends in <b>.exe</b> — that is a program, not a PDF. Windows often hides the true extension.','You did not request any document. Unexpected = suspicious.','Legit e-signature tools use their website, not email attachments.']},
+        {from:'Sarah (Marketing)', addr:'sarah@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Re: Deck feedback', time:'10:45 AM', date:'Mon, May 12, 2025 · 10:45 AM',
+         body:'Loved the new slides! Just one tweak on slide 4 — can you swap the chart color?\n\n— Sarah', evil:false, av:'S'},
+        {from:'Coffee Club', addr:'coffeeclub@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Friday order is open ☕', time:'11:02 AM', date:'Mon, May 12, 2025 · 11:02 AM',
+         body:'This week\'s order form closes Thursday 5pm.\n\nDonuts on the menu!', evil:false, av:'CC'}
+      ]
+    },
+    {
+      title:'Level 3 — The Account Alert',
+      defender:'They impersonate a service you probably use. Look for fake domains with words like "support," "secure," or "verify."',
+      emails:[
+        {from:'GitHub', addr:'noreply@github.com', to:randomFrom(recipientLocal),
+         subj:'New sign-in from Chrome on Mac', time:'11:20 AM', date:'Mon, May 12, 2025 · 11:20 AM',
+         body:'We noticed a new sign-in to your account from Chrome on macOS.\n\nIf this was you, no action is needed. If not, secure your account in Settings.\n\n— GitHub', evil:false, av:'GH'},
+        {from:'Netflix', addr:'info@netflix-billing-support.com', to:randomFrom(recipientLocal),
+         subj:'Your payment failed — update within 24h', time:'11:33 AM', date:'Mon, May 12, 2025 · 11:33 AM',
+         body:'We couldn\'t charge your card on file.\n\nTo avoid losing access, please update your payment details below.\n\nFailure to act within 24 hours will result in suspension.\n\nhttp://netflix-billing-support.com/update-payment',
+         links:[{text:'netflix-billing-support.com/update-payment', url:'http://netflix-billing-support.com/update-payment', real:'netflix-billing-support.com (NOT netflix.com)'}],
+         evil:true, av:'NF',
+         why:['Real Netflix uses <b>@netflix.com</b> — this is netflix-billing-support.com.','Artificial deadline ("24 hours") is a phishing hallmark.','Payment issues appear in the Netflix app, not only in email.','Never click email links to enter payment info — type the URL yourself.']},
+        {from:'Boss', addr:'boss@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Quick question', time:'11:50 AM', date:'Mon, May 12, 2025 · 11:50 AM',
+         body:'Hey — do you have 5 min later to chat about the roadmap?\n\nNo rush.', evil:false, av:'B'},
+        {from:'LinkedIn', addr:'messages-noreply@linkedin.com', to:randomFrom(recipientLocal),
+         subj:'You have a new message', time:'12:05 PM', date:'Mon, May 12, 2025 · 12:05 PM',
+         body:'A connection sent you a message.\n\nOpen LinkedIn to view.', evil:false, av:'LI'},
+        {from:'City Library', addr:'noreply@citylibrary.org', to:randomFrom(recipientLocal),
+         subj:'Your hold is ready', time:'12:14 PM', date:'Mon, May 12, 2025 · 12:14 PM',
+         body:'The book you requested is now available for pickup at the front desk.\n\nPlease collect within 5 days.', evil:false, av:'LB'}
+      ]
+    },
+    {
+      title:'Level 4 — The Colleague',
+      defender:'Attackers impersonate people you TRUST. Check the email ADDRESS, not just the name. Would this person really ask for this?',
+      emails:[
+        {from:'David from Finance', addr:'david@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Re: Lunch Friday?', time:'1:10 PM', date:'Mon, May 12, 2025 · 1:10 PM',
+         body:'Yes! Thai place on 5th? Noon works for me.', evil:false, av:'D'},
+        {from:'Your CEO', addr:'ceo.name@yourcompany-hq.co', to:randomFrom(recipientLocal),
+         subj:'URGENT — need you to handle this today', time:'1:22 PM', date:'Mon, May 12, 2025 · 1:22 PM',
+         body:'Hi,\n\nI\'m in a meeting and can\'t talk. I need you to purchase 3 gift cards ($500 each) for a client appreciation event. Take a photo of the codes and send them back ASAP.\n\nKeep this between us for now — it\'s a surprise.\n\nThanks!',
+         evil:true, av:'CEO',
+         why:['Sender address is <b>@yourcompany-hq.co</b> — not yourcompany.com.','"CEO can\'t be contacted" is a classic pretext.','Gift card requests are the #1 Business Email Compromise (BEC) sign.','"Keep this between us" isolates you from people who\'d catch the scam.']},
+        {from:'Project Tracker', addr:'notifications@projecttracker.com', to:randomFrom(recipientLocal),
+         subj:'Task assigned: Review Q3 plan', time:'1:40 PM', date:'Mon, May 12, 2025 · 1:40 PM',
+         body:'You\'ve been assigned a task by Sarah.\n\nDue Friday.', evil:false, av:'PT'},
+        {from:'Mom', addr:randomFrom(senders.momDomains), to:randomFrom(recipientLocal),
+         subj:'Photos from the weekend', time:'1:55 PM', date:'Mon, May 12, 2025 · 1:55 PM',
+         body:'Here are the pics from the park!\n\nAttached: IMG_4821.jpg, IMG_4822.jpg',
+         attachments:[{name:'IMG_4821.jpg', size:'2.4 MB'},{name:'IMG_4822.jpg', size:'2.1 MB'}], evil:false, av:'M'},
+        {from:'Facilities', addr:'facilities@yourcompany.com', to:randomFrom(recipientLocal),
+         subj:'Elevator maintenance — Tuesday', time:'2:10 PM', date:'Mon, May 12, 2025 · 2:10 PM',
+         body:'The east elevator will be down Tuesday 7–10am for scheduled service.\n\nPlease use the stairs or west elevator.', evil:false, av:'F'}
+      ]
+    },
+    {
+      title:'Level 5 — The Final Test',
+      defender:'',
+      emails:[
+        {from:'Google', addr:'no-reply@google-account-verify.info', to:randomFrom(recipientLocal),
+         subj:'🚨 Your account will be deleted in 24 hours', time:'3:00 PM', date:'Mon, May 12, 2025 · 3:00 PM',
+         body:'We\'ve detected suspicious activity on your account.\n\nTo keep your account, verify your identity now at google-account-verify.info.\n\nYou will be asked to re-enter your password and phone number.\n\nhttp://google-account-verify.info/verify',
+         links:[{text:'google-account-verify.info/verify', url:'http://google-account-verify.info/verify', real:'google-account-verify.info (NOT google.com)'}],
+         evil:true, av:'G',
+         why:['Real Google is <b>@google.com</b> or @accounts.google.com. This is google-account-verify.info.','Google NEVER threatens deletion in 24 hours.','No legit service asks for your password by email.','The "re-enter password" page steals your credentials and phone for 2FA bypass.']},
+        {from:'Spotify', addr:'no-reply@spotify.com', to:randomFrom(recipientLocal),
+         subj:'Your 2025 Year in Music is ready 🎵', time:'3:12 PM', date:'Mon, May 12, 2025 · 3:12 PM',
+         body:'See your top artists, songs, and genres of the year.\n\nOpen the app to view.', evil:false, av:'SP'},
+        {from:'Landlord', addr:'landlord@gmail.com', to:randomFrom(recipientLocal),
+         subj:'Water shutoff tomorrow 9-11am', time:'3:25 PM', date:'Mon, May 12, 2025 · 3:25 PM',
+         body:'Heads up — building-wide water shutoff tomorrow morning for maintenance.\n\nSorry for the inconvenience!', evil:false, av:'L'},
+        {from:'Bank of America', addr:'alerts@bankofamerica.com', to:randomFrom(recipientLocal),
+         subj:'Your monthly statement is available', time:'3:40 PM', date:'Mon, May 12, 2025 · 3:40 PM',
+         body:'Your statement is ready.\n\nLog in to online banking to view it.\n\nWe never ask for your password by email.', evil:false, av:'BofA'},
+        {from:'Ticketmaster', addr:'orders@ticketmaster.com', to:randomFrom(recipientLocal),
+         subj:'Your next event is Saturday', time:'3:55 PM', date:'Mon, May 12, 2025 · 3:55 PM',
+         body:'Your mobile tickets are ready in the app.\n\nShow the QR code at the gate.', evil:false, av:'TM'}
+      ]
+    }
+  ];
+}
+
+/* ==========================================================
+   STATE
+   ========================================================== */
+const state = {
+  screen:'home',
+  mode:null,
+  provider:null,
+  level:0, score:0, startTime:0, levelStart:0,
+  streak:0, penaltyPts:10,
+  csQuestions:[], csIndex:0, csCorrect:0, csWrong:0, csHistory:[],
+  phishingLevels:[], currentEmails:[], selectedIdx:null, answerLocked:false,
+  hints:{ text:null, silent:false, timer:null }
+};
+
+const screen = document.getElementById('screen');
+const bannerWrap = document.getElementById('bannerWrap');
+
+const rand = (n)=>Math.floor(Math.random()*n);
+const shuffle = (arr)=>arr.slice().sort(()=>Math.random()-0.5);
+
+/* BANNER */
+function showBanner({type='hint', name='DIGCON SEC', text='', icon='🛡️', autoDismissMs=15000}){
+  clearBanner();
+  const wrap = document.createElement('div');
+  wrap.className = 'banner ' +
+    (type==='hint-silent'?'silent': type==='bad'?'bad-banner': '');
+  wrap.innerHTML = `
+    <div class="icon">${icon}</div>
+    <div class="content">
+      <div class="name">${name}</div>
+      <div class="msg">${text}</div>
+    </div>
+    <span class="close" title="Dismiss">×</span>
+    <div class="timer"></div>
+  `;
+  bannerWrap.appendChild(wrap);
+  const close = ()=>{
+    if(wrap.classList.contains('out')) return;
+    wrap.classList.add('out');
+    setTimeout(()=>{ if(wrap.parentNode) wrap.parentNode.removeChild(wrap); }, 300);
+  };
+  wrap.querySelector('.close').onclick = close;
+  const timerEl = wrap.querySelector('.timer');
+  if(autoDismissMs > 0){
+    timerEl.style.animationDuration = (autoDismissMs/1000)+'s';
+    setTimeout(close, autoDismissMs);
+  } else timerEl.remove();
+}
+function clearBanner(){ bannerWrap.innerHTML = ''; }
+
+function startHintLoop(){
+  stopHintLoop();
+  setTimeout(()=>{ if(state.hints.text || state.hints.silent) showHintNow(); }, 400);
+  state.hints.timer = setInterval(()=>{
+    if(state.answerLocked) return;
+    if(!state.hints.text && !state.hints.silent) return;
+    if(document.querySelector('.banner')) return;
+    showHintNow();
+  }, 15000);
+}
+function stopHintLoop(){
+  if(state.hints.timer){ clearInterval(state.hints.timer); state.hints.timer = null; }
+}
+function showHintNow(){
+  if(state.hints.silent){
+    showBanner({ type:'hint-silent', name:'Defender', icon:'😶',
+      text:`…Defender has gone quiet. You're on your own this time.`, autoDismissMs:15000 });
+  } else if(state.hints.text){
+    showBanner({ type:'hint', name:'Defender', icon:'🛡️',
+      text:state.hints.text, autoDismissMs:15000 });
+  }
+}
+
+/* ==========================================================
+   HOME — 6 GAMES
+   ========================================================== */
+function renderHome(){
+  stopHintLoop(); clearBanner();
+  state.screen='home';
+  screen.innerHTML = `
+    <div class="card hero fade">
+      <div class="mark-big">🛡️</div>
+      <div class="tag">DIGCON SEC · CYBERSMART</div>
+      <h1>Think before you click.</h1>
+      <p class="lede">Every day, we make decisions that protect or expose us online. Pick any of the six games below and see how cyber-smart you are.</p>
+    </div>
+
+    <div class="card">
+      <div class="flex-between" style="margin-bottom:6px">
+        <h2>Choose a game</h2>
+        <span class="pill">6 games</span>
+      </div>
+      <div class="mode-grid" style="margin-top:16px">
+        <div class="mode-card" data-mode="phishing">
+          <span class="emoji">🕵️</span>
+          <h3>Phishing Detective</h3>
+          <p>${MODES.phishing.desc}</p>
+          <div class="tagline">5 LEVELS · INBOX SIMULATION</div>
+        </div>
+        <div class="mode-card" data-mode="everyday">
+          <span class="emoji">🌍</span>
+          <h3>Everyday Cyber Safety</h3>
+          <p>${MODES.everyday.desc}</p>
+          <div class="tagline">10 RANDOM SCENARIOS</div>
+        </div>
+        <div class="mode-card" data-mode="family">
+          <span class="emoji">👨‍👩‍👧‍👦</span>
+          <h3>Family Protector</h3>
+          <p>${MODES.family.desc}</p>
+          <div class="tagline">PROTECT YOUR LOVED ONES</div>
+        </div>
+        <div class="mode-card" data-mode="business">
+          <span class="emoji">🏪</span>
+          <h3>Business Defender</h3>
+          <p>${MODES.business.desc}</p>
+          <div class="tagline">SMALL BUSINESS · BIG RISKS</div>
+        </div>
+        <div class="mode-card" data-mode="spot">
+          <span class="emoji">🔎</span>
+          <h3>Spot the Danger</h3>
+          <p>${MODES.spot.desc}</p>
+          <div class="tagline">IDENTIFY SUSPICIOUS SIGNS</div>
+        </div>
+        <div class="mode-card" data-mode="decide">
+          <span class="emoji">💡</span>
+          <h3>What Would You Do?</h3>
+          <p>${MODES.decide.desc}</p>
+          <div class="tagline">REAL INCIDENTS · REAL DECISIONS</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-bottom:10px">How it works</h3>
+      <ul class="list-plain">
+        <li>Choose a game to start a fresh round of questions.</li>
+        <li>Correct answers earn points. Wrong answers cost 10% of the question's points.</li>
+        <li>Feedback appears immediately after every answer — why it is safe or unsafe, what could happen, what to do next.</li>
+        <li>Finish the round to get your rank, accuracy, and category breakdown.</li>
+      </ul>
+    </div>
+  `;
+  screen.querySelectorAll('[data-mode]').forEach(c=>{
+    c.onclick = ()=> startMode(c.dataset.mode);
+  });
+}
+
+function startMode(mode){
+  if(mode==='phishing'){ startPhishingSetup(); return; }
+  const bank = SCENARIOS.filter(s=>s.mode===mode);
+  if(bank.length === 0){ alert('No questions for this mode.'); return; }
+  const set = shuffle(bank).slice(0, Math.min(10, bank.length));
+  state.mode = mode;
+  state.csQuestions = set;
+  state.csIndex = 0;
+  state.csCorrect = 0;
+  state.csWrong = 0;
+  state.csHistory = [];
+  state.score = 0;
+  state.streak = 0;
+  state.csSessionStart = Date.now();
+  state.screen = 'quiz';
+  renderQuestion();
+}
+
+/* QUIZ */
+function renderQuestion(){
+  stopHintLoop(); clearBanner();
+  const q = state.csQuestions[state.csIndex];
+  const total = state.csQuestions.length;
+  const displayed = shuffle([0,1,2,3]);
+  state._displayed = displayed;
+  state._answered = false;
+
+  screen.innerHTML = `
+    <div class="topbar">
+      <span class="prog-pill">Question <b>${state.csIndex+1}</b> of <b>${total}</b> · ${MODES[state.mode].title}</span>
+      <span class="score-pill">${state.score} pts</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.csIndex/total)*100}%"></div></div>
+
+    <div class="card fade">
+      <span class="q-cat">${q.category}</span>
+      <div class="q-scenario">${q.scenario}</div>
+      <h3 style="margin-bottom:10px">${q.question}</h3>
+      <div class="options" id="options">
+        ${displayed.map((orig,pos)=>`
+          <button class="option" data-orig="${orig}" data-pos="${pos}">
+            <span class="key">${'ABCD'[pos]}</span>
+            <span>${q.options[orig]}</span>
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  screen.querySelectorAll('.option').forEach(btn=>{
+    btn.onclick = ()=> answerQuestion(parseInt(btn.dataset.orig), btn);
+  });
+}
+
+function answerQuestion(origIdx, btnEl){
+  if(state._answered) return;
+  state._answered = true;
+  const q = state.csQuestions[state.csIndex];
+  const correct = origIdx === q.correctAnswer;
+  const penalty = Math.round(q.points * 0.10);
+
+  screen.querySelectorAll('.option').forEach(btn=>{
+    btn.disabled = true;
+    const oi = parseInt(btn.dataset.orig);
+    if(oi === q.correctAnswer) btn.classList.add('correct');
+    if(btn === btnEl && !correct) btn.classList.add('wrong','chosen');
+    if(btn === btnEl && correct) btn.classList.add('chosen');
+  });
+
+  if(correct){ state.score += q.points; state.streak++; state.csCorrect++; }
+  else { state.score = Math.max(0, state.score - penalty); state.streak = 0; state.csWrong++; }
+  state.csHistory.push({ id:q.id, correct, chosen:origIdx, correctAnswer:q.correctAnswer });
+
+  const fb = document.createElement('div');
+  fb.className = 'feedback-card ' + (correct?'good':'bad');
+  fb.innerHTML = `
+    <div class="feedback-head">
+      <div class="icon">${correct?'✓':'!'}</div>
+      <h3>${correct ? 'Excellent decision!' : 'Not quite — let\'s learn from this.'}</h3>
+      <div class="pts">${correct?'+'+q.points : '−'+penalty} pts</div>
+    </div>
+    <div class="fb-section"><div class="lbl">Why</div><p>${q.explanation}</p></div>
+    <div class="fb-section"><div class="lbl">What to do</div><p>${q.lesson}</p></div>
+    <div class="fb-section consequence"><div class="lbl">What could happen</div><p>${q.consequence}</p></div>
+    ${q.didYouKnow ? `<div class="fb-section didyouknow"><div class="lbl">Did you know?</div><p>${q.didYouKnow}</p></div>` : ''}
+    <button class="btn block" id="nextBtn">${state.csIndex+1 === state.csQuestions.length ? 'See Results →' : 'Continue →'}</button>
+  `;
+  screen.querySelector('.card').appendChild(fb);
+  fb.scrollIntoView({behavior:'smooth', block:'start'});
+  document.getElementById('nextBtn').onclick = ()=>{
+    state.csIndex++;
+    if(state.csIndex >= state.csQuestions.length){ renderResults(); }
+    else renderQuestion();
+  };
+}
+
+/* RESULTS */
+function renderResults(){
+  stopHintLoop(); clearBanner();
+  const total = state.csQuestions.length;
+  const pct = total ? Math.round((state.csCorrect/total)*100) : 0;
+  const rank = pct>=91 ? 'Cyber Champion' : pct>=71 ? 'Cyber Guardian' : pct>=51 ? 'Cyber Aware' : pct>=31 ? 'Digital Explorer' : 'Cyber Beginner';
+  const rankEmoji = pct>=91 ? '🏆' : pct>=71 ? '🥇' : pct>=51 ? '🥈' : pct>=31 ? '🥉' : '🌱';
+
+  const byCat = {};
+  state.csQuestions.forEach(q=>{
+    const h = state.csHistory.find(x=>x.id===q.id);
+    if(!h) return;
+    byCat[q.category] = byCat[q.category] || { total:0, correct:0 };
+    byCat[q.category].total++;
+    if(h.correct) byCat[q.category].correct++;
+  });
+
+  try{
+    const prev = JSON.parse(localStorage.getItem('digcon_cybersmart_scores')||'[]');
+    prev.push({ score: state.score, pct, total, date: new Date().toISOString() });
+    localStorage.setItem('digcon_cybersmart_scores', JSON.stringify(prev.slice(-20)));
+  }catch(e){}
+
+  screen.innerHTML = `
+    <div class="card results-hero fade">
+      <div class="rank-badge">${rankEmoji} ${rank}</div>
+      <div class="big-score">${pct}%</div>
+      <p class="sub">${state.csCorrect} of ${total} correct</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">${state.score}</div><div class="lbl">Points</div></div>
+      <div class="stat"><div class="num" style="color:var(--green)">${state.csCorrect}</div><div class="lbl">Correct</div></div>
+      <div class="stat"><div class="num" style="color:var(--red)">${state.csWrong}</div><div class="lbl">Incorrect</div></div>
+      <div class="stat"><div class="num">${MODES[state.mode].emoji}</div><div class="lbl">${MODES[state.mode].title}</div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:12px">Performance by category</h3>
+      ${Object.entries(byCat).map(([cat, v])=>{
+        const p = Math.round((v.correct/v.total)*100);
+        return `<div style="margin-bottom:10px">
+          <div class="flex-between" style="font-size:.85rem"><span>${cat}</span><b>${v.correct}/${v.total}</b></div>
+          <div class="progress-bar" style="height:4px;margin:4px 0 0"><div style="width:${p}%"></div></div>
+        </div>`;
+      }).join('') || '<p class="sub">No data.</p>'}
+    </div>
+    <div class="card">
+      <div class="row">
+        <button class="btn" id="againBtn">Play Again</button>
+        <button class="btn ghost" id="anotherBtn">Choose Another Game</button>
+        <button class="btn ghost" id="homeBtn">Return Home</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('againBtn').onclick = ()=>startMode(state.mode);
+  document.getElementById('anotherBtn').onclick = ()=>renderHome();
+  document.getElementById('homeBtn').onclick = ()=>renderHome();
+}
+
+/* PHISHING */
+function startPhishingSetup(){
+  stopHintLoop(); clearBanner();
+  state.phishingLevels = genPhishingLevels();
+  state.screen = 'phishing-setup';
+  screen.innerHTML = `
+    <div class="card fade">
+      <h2 style="margin-bottom:6px">Choose your email provider</h2>
+      <p class="sub" style="margin-bottom:0">The inbox will look like your real one — because that's how phishing works.</p>
+      <div class="mode-grid" style="margin-top:18px;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">
+        <div class="mode-card" data-p="gmail" style="text-align:center;padding:22px">
+          <div style="font-size:1.6rem;font-weight:900;color:var(--gmail);margin-bottom:4px">Gmail</div>
+          <small style="color:var(--muted)">Google</small>
+        </div>
+        <div class="mode-card" data-p="outlook" style="text-align:center;padding:22px">
+          <div style="font-size:1.6rem;font-weight:900;color:var(--outlook);margin-bottom:4px">Outlook</div>
+          <small style="color:var(--muted)">Microsoft</small>
+        </div>
+        <div class="mode-card" data-p="yahoo" style="text-align:center;padding:22px">
+          <div style="font-size:1.6rem;font-weight:900;color:var(--yahoo);margin-bottom:4px">Yahoo</div>
+          <small style="color:var(--muted)">Mail</small>
+        </div>
+      </div>
+      <div style="margin-top:24px" class="center">
+        <button class="btn" id="beginBtn" disabled>Begin Investigation →</button>
+      </div>
+    </div>
+  `;
+  screen.querySelectorAll('[data-p]').forEach(el=>{
+    el.onclick = ()=>{
+      screen.querySelectorAll('[data-p]').forEach(x=>x.style.borderColor='');
+      el.style.borderColor = 'var(--cyan)';
+      state.provider = el.dataset.p;
+      document.getElementById('beginBtn').disabled = false;
+    };
+  });
+  document.getElementById('beginBtn').onclick = ()=>{
+    state.score = 0; state.level = 0; state.streak = 0;
+    state.startTime = Date.now();
+    state.screen = 'phishing';
+    startPhishingLevel();
+  };
+}
+
+function startPhishingLevel(){
+  if(state.level >= state.phishingLevels.length){ renderPhishingResults(); return; }
+  state._phishAnswered = false;
+  const lvl = state.phishingLevels[state.level];
+  state.currentEmails = shuffle(lvl.emails);
+  state.selectedIdx = null;
+  state.answerLocked = false;
+  state.levelStart = Date.now();
+  state.hints.text = lvl.defender || null;
+  state.hints.silent = !lvl.defender;
+
+  const brand = state.provider==='gmail'?'Gmail':state.provider==='outlook'?'Outlook':'Yahoo Mail';
+
+  screen.innerHTML = `
+    <div class="topbar">
+      <span class="prog-pill">Level <b>${state.level+1}</b> of ${state.phishingLevels.length} · Streak ${state.streak}</span>
+      <span class="score-pill">${state.score} pts</span>
+    </div>
+    <div class="progress-bar"><div style="width:${(state.level/state.phishingLevels.length)*100}%"></div></div>
+    <div class="card fade">
+      <span class="q-cat">Level ${state.level+1}</span>
+      <h2 style="margin-bottom:4px">${lvl.title}</h2>
+      <p class="sub" style="margin-bottom:0">Click any email to read it, then use the preview to mark the phish. Wrong = −10 pts, try another.</p>
+      <div class="mail-shell">
+        <div class="inbox ${state.provider}">
+          <div class="inbox-head"><span>${brand}</span><span>Inbox (${state.currentEmails.length})</span></div>
+          <div class="inbox-tools"><span>📥 Inbox</span><span>⭐ Starred</span><span>📤 Sent</span><span>🗑️ Trash</span></div>
+          ${state.currentEmails.map((e,i)=>`
+            <div class="email unread" data-i="${i}">
+              <div class="avatar">${e.av||e.from[0]}</div>
+              <div class="meta"><div class="who">${e.from}</div><div class="subj">${e.subj}</div></div>
+              <div class="time">${e.time}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="preview empty" id="preview">
+          <div class="preview-empty-icon">📩</div>
+          <div>Select an email to view it here</div>
+        </div>
+      </div>
+    </div>
+  `;
+  screen.querySelectorAll('.email').forEach(el=>{
+    el.onclick = ()=> selectEmail(parseInt(el.dataset.i));
+  });
+  if(window.innerWidth <= 860 && state.currentEmails.length) selectEmail(0);
+  startHintLoop();
+}
+
+function selectEmail(i){
+  if(state._phishAnswered) return;
+  const e = state.currentEmails[i];
+  if(e._answered) return;
+  state.selectedIdx = i;
+  screen.querySelectorAll('.email').forEach((el,idx)=>{
+    el.classList.toggle('sel', idx === i);
+    if(idx === i) el.classList.remove('unread');
+  });
+
+  const attachHtml = e.attachments && e.attachments.length
+    ? `<div class="preview-meta">📎 <b>Attachments:</b> ${e.attachments.map(a=>`${a.name} <span style="color:#8b93b8">(${a.size})</span>`).join(' · ')}</div>`
+    : '';
+  const linksHtml = e.links && e.links.length
+    ? `<div class="link-note">🔗 Link: <b>${e.links[0].text}</b> — actual: <b>${e.links[0].real}</b></div>`
+    : '';
+
+  document.getElementById('preview').classList.remove('empty');
+  document.getElementById('preview').innerHTML = `
+    <div class="preview-head">
+      <h3>${e.subj}</h3>
+      <div class="addr"><b>${e.from}</b> &lt;${e.addr}&gt;</div>
+      <div class="addr">To: <b>${e.to}</b></div>
+      <div class="date">${e.date}</div>
+    </div>
+    <div class="preview-body">${e.body}</div>
+    ${linksHtml}
+    ${attachHtml}
+    <div class="preview-actions">
+      <span class="msg">Is this email safe or a phish?</span>
+      <div>
+        <button class="btn ghost sm" id="safeBtn">✅ It's safe</button>
+        <button class="btn danger sm" id="phishBtn">🎣 Mark as phish</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('safeBtn').onclick = ()=> submitPhish(false);
+  document.getElementById('phishBtn').onclick = ()=> submitPhish(true);
+}
+
+function submitPhish(playerThinksPhish){
+  if(state._phishAnswered) return;
+  const e = state.currentEmails[state.selectedIdx];
+  if(!e || e._answered) return;
+  const actuallyEvil = e.evil;
+  const playerCorrect = playerThinksPhish === actuallyEvil;
+
+  if(playerCorrect){
+    state._phishAnswered = true;
+    stopHintLoop();
+    const timeTaken = (Date.now()-state.levelStart)/1000;
+    const timeBonus = Math.max(0, Math.round(50 - timeTaken));
+    const streakBonus = state.streak * 15;
+    const pts = 100 + timeBonus + streakBonus;
+    state.score += pts;
+    state.streak++;
+    state.level++;
+    clearBanner();
+    showPhishResult(e, pts, timeBonus, streakBonus);
+  } else {
+    const penalty = 10;
+    state.score = Math.max(0, state.score - penalty);
+    state.streak = 0;
+    e._answered = true;
+    const emailEl = screen.querySelector(`.email[data-i="${state.selectedIdx}"]`);
+    if(emailEl) emailEl.classList.add('answered');
+    const preview = document.getElementById('preview');
+    const note = document.createElement('div');
+    note.className = 'link-note';
+    note.style.background = actuallyEvil ? '#ffebee' : '#e8f5e9';
+    note.style.color = actuallyEvil ? '#8a1c1c' : '#1b5e20';
+    note.style.borderLeftColor = actuallyEvil ? '#c62828' : '#2e7d32';
+    note.innerHTML = actuallyEvil
+      ? `🚨 <b>This email IS a phish.</b> You marked it safe.`
+      : `✅ <b>This email is safe.</b> You flagged a legit email.`;
+    const actions = preview.querySelector('.preview-actions');
+    if(actions) actions.remove();
+    preview.appendChild(note);
+    state.selectedIdx = null;
+    const text = actuallyEvil
+      ? `<b>You marked a phishing email as safe.</b> That one is malicious. <b>−${penalty} pts.</b> Check sender domain + hover the link. Try another.`
+      : `<b>You flagged a legit email.</b> This one is actually safe. <b>−${penalty} pts.</b> False positives waste time. Try another.`;
+    showBanner({ type:'bad', name:'Wrong call', icon:'❌', text, autoDismissMs:15000 });
+  }
+}
+
+function showPhishResult(email, pts, timeBonus, streakBonus){
+  const modal = document.createElement('div');
+  modal.className = 'modal-bg';
+  modal.innerHTML = `
+    <div class="modal fade">
+      <h2 style="color:var(--green)">✅ Nice catch, Detective!</h2>
+      <p>You correctly identified the phishing attempt.</p>
+      <div style="background:var(--navy3);padding:14px;border-radius:10px;margin-bottom:14px;font-size:.9rem">
+        <div class="flex-between"><span>Base</span><b>+100</b></div>
+        <div class="flex-between"><span>Speed</span><b>+${timeBonus}</b></div>
+        <div class="flex-between"><span>Streak (${state.streak})</span><b>+${streakBonus}</b></div>
+        <div class="divider"></div>
+        <div class="flex-between"><b>Level total</b><b style="color:var(--green)">+${pts}</b></div>
+      </div>
+      <div style="background:rgba(255,217,61,.08);border-left:3px solid var(--yellow);padding:12px 14px;border-radius:8px;font-size:.85rem;color:var(--text);line-height:1.6">
+        <b style="color:var(--yellow)">Red flags:</b><br>
+        ${email.why.map(w=>`• ${w}`).join('<br>')}
+      </div>
+      <button class="btn block" id="nextBtn" style="margin-top:16px">${state.level>=state.phishingLevels.length?'See Results →':'Next Level →'}</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  modal.querySelector('#nextBtn').onclick = ()=>{
+    modal.remove();
+    if(state.level>=state.phishingLevels.length) renderPhishingResults();
+    else startPhishingLevel();
+  };
+}
+
+function renderPhishingResults(){
+  stopHintLoop(); clearBanner();
+  const total = state.phishingLevels.length;
+  const correct = state.level;
+  const pct = Math.round((correct/total)*100);
+  const rank = pct>=100?'🏆 Elite Cyber Detective': pct>=80?'🥇 Sharp Detective': pct>=60?'🥈 Certified Detective':'🥉 Trainee';
+  try{
+    const prev = JSON.parse(localStorage.getItem('digcon_phishing_scores')||'[]');
+    prev.push({score:state.score, pct, date:new Date().toISOString()});
+    localStorage.setItem('digcon_phishing_scores', JSON.stringify(prev.slice(-20)));
+  }catch(e){}
+  screen.innerHTML = `
+    <div class="card results-hero fade">
+      <div class="rank-badge">${rank}</div>
+      <div class="big-score">${state.score}</div>
+      <p class="sub">${correct} of ${total} levels cleared</p>
+    </div>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">${correct}</div><div class="lbl">Levels Cleared</div></div>
+      <div class="stat"><div class="num">${state.streak}</div><div class="lbl">Final Streak</div></div>
+      <div class="stat"><div class="num">${pct}%</div><div class="lbl">Accuracy</div></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-bottom:10px">What you learned</h3>
+      <ul class="list-plain">
+        <li>Always check the real sender domain — display names are easy to fake.</li>
+        <li>Hover over links to preview the actual destination.</li>
+        <li>Never open unexpected <b>.exe</b> or <b>.zip</b> attachments.</li>
+        <li>Urgent threats ("24 hours to act") are phishing pressure tactics.</li>
+        <li>Gift-card requests are always a scam, even if the "CEO" asks.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="row">
+        <button class="btn" id="againBtn">Play Again</button>
+        <button class="btn ghost" id="homeBtn">Return Home</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('againBtn').onclick = ()=>startPhishingSetup();
+  document.getElementById('homeBtn').onclick = ()=>renderHome();
+}
+
+renderHome();
+</script>
+</body>
+</html>
